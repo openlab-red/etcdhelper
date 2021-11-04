@@ -14,7 +14,7 @@ import (
 	"k8s.io/kubectl/pkg/scheme"
 
 	"go.etcd.io/etcd/client/pkg/v3/transport"
-	"go.etcd.io/etcd/client/v3"
+	clientv3 "go.etcd.io/etcd/client/v3"
 
 	"github.com/openshift/api"
 )
@@ -44,18 +44,18 @@ func main() {
 		fmt.Fprint(os.Stderr, "ERROR: you cannot specify positional arguments with dump\n")
 		os.Exit(1)
 	}
-  
-  if flag.Arg(0) == "get" && flag.NArg() == 2 {
+
+	if flag.Arg(0) == "put" && flag.NArg() == 2 {
 		fmt.Fprint(os.Stderr, "ERROR: you need to specify <key> <value> for put operation\n")
 		os.Exit(1)
 	}
-  
+
 	action := flag.Arg(0)
 	key := ""
-  value := ""
+	value := ""
 	if flag.NArg() > 2 {
 		key = flag.Arg(1)
-    value = flag.Arg(2)
+		value = flag.Arg(2)
 	}
 
 	var tlsConfig *tls.Config
