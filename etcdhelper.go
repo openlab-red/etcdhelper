@@ -195,7 +195,7 @@ func dump(client *clientv3.Client) error {
 }
 
 func putKey(client *clientv3.Client, key string, value string) error {
-	resp, err := clientv3.NewKV(client).Put(context.Background(), key, value)
+	_, err := clientv3.NewKV(client).Put(context.Background(), key, value)
 	if err != nil {
 		return err
 	}
