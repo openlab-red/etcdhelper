@@ -23,22 +23,37 @@ Once these are set properly, one can invoke the following actions:
 
 ## Sample Usage
 
+Get etcd information.
+
+```
+    export ETCDCTL_CACERT="/etc/kubernetes/static-pod-resources/etcd-certs/configmaps/etcd-serving-ca/ca-bundle.crt"
+    export ETCDCTL_KEY="/etc/kubernetes/static-pod-certs/resources/etcd-certs/secrets/etcd-all-certs/etcd-peer-mmcn.openlab.red.key"
+    export ETCDCTL_KEY="/etc/kubernetes/static-pod-resources/etcd-certs/secrets/etcd-all-certs/etcd-peer-mmcn.openlab.red.key"
+    export ETCDCTL_CERT="/etc/kubernetes/static-pod-resources/etcd-certs/secrets/etcd-all-certs/etcd-peer-mmcn.openlab.red.crt"
+```
+
 List all keys starting with `/openshift.io`:
 
 ```
-etcdhelper -key master.etcd-client.key -cert master.etcd-client.crt -cacert ca.crt ls /openshift.io
+./etcdhelper -key $ETCDCTL_KEY -cert $ETCDCTL_CERT -cacert $ETCDCTL_CACERT ls /openshift.io
 ```
 
-Get JSON-representation of `imagestream/python` from `openshift` namespace:
+Get JSON-representation of `/kubernetes.io/clusterrolebindings/system-bootstrap-node-bootstrapper`:
 
 ```
-etcdhelper -key master.etcd-client.key -cert master.etcd-client.crt -cacert ca.crt get /openshift.io/imagestreams/openshift/python
+./etcdhelper -key $ETCDCTL_KEY -cert $ETCDCTL_CERT -cacert $ETCDCTL_CACERT get /kubernetes.io/clusterrolebindings/system-bootstrap-node-bootstrapper
+```
+
+Put value (JSON or YAML) to `/kubernetes.io/clusterrolebindings/system-bootstrap-node-bootstrapper`:
+
+```
+./etcdhelper -key $ETCDCTL_KEY -cert $ETCDCTL_CERT -cacert $ETCDCTL_CACERT put /kubernetes.io/clusterrolebindings/system-bootstrap-node-bootstrapper '<your value>'
 ```
 
 Dump the contents of etcd to stdout:
 
 ```
-etcdhelper -key master.etcd-client.key -cert master.etcd-client.crt -cacert ca.crt dump
+./etcdhelper -key $ETCDCTL_KEY -cert $ETCDCTL_CERT -cacert $ETCDCTL_CACERT dump
 ```
 
 

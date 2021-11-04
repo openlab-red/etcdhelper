@@ -52,9 +52,13 @@ func main() {
 
 	action := flag.Arg(0)
 	key := ""
+
+	if flag.NArg() > 1 {
+		key = flag.Arg(1)
+	}
+
 	value := ""
 	if flag.NArg() > 2 {
-		key = flag.Arg(1)
 		value = flag.Arg(2)
 	}
 
@@ -124,6 +128,8 @@ func listKeys(client *clientv3.Client, key string) error {
 }
 
 func getKey(client *clientv3.Client, key string) error {
+
+	fmt.Fprintf(os.Stdout, "INFO: Key %s: \n", key)
 	resp, err := clientv3.NewKV(client).Get(context.Background(), key)
 	if err != nil {
 		return err
@@ -199,6 +205,8 @@ func putKey(client *clientv3.Client, key string, value string) error {
 	if err != nil {
 		return err
 	}
+
+	fmt.Fprintf(os.Stdout, "INFO: Key %s saved.\n", key)
 
 	return nil
 }
